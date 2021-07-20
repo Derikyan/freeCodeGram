@@ -22,6 +22,8 @@ Auth::routes();
 //     return view("posts/create");
 // });
 
+Route::post('follow/{user}', 'FollowsController@store');
+
 Route::prefix('p')->group(function () {
     Route::get('/create','PostsController@create');
     Route::post('/', 'PostsController@store');
