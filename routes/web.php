@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 // Route::get('/p', function () {
 //     return view("posts/create");
 // });
+
+Route::get('/','PostsController@index');
 
 Route::post('follow/{user}', 'FollowsController@store');
 
