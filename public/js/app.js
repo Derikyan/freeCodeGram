@@ -1852,15 +1852,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['userId'],
+  props: ['userId', 'follows'],
   mounted: function mounted() {
     console.log('Component mounted.');
   },
+  data: function data() {
+    return {
+      status: this.follows
+    };
+  },
   methods: {
     followUser: function followUser() {
+      var _this = this;
+
       axios.post('/follow/' + this.userId).then(function (response) {
-        alert(response.data);
+        _this.status = !_this.status;
+        console.log(response.data);
+      })["catch"](function (errors) {
+        if (errors.response.status == 401) {
+          window.location = '/login';
+        }
       });
+    }
+  },
+  computed: {
+    buttonText: function buttonText() {
+      return this.status ? 'Unfollow' : 'Follow';
     }
   }
 });
@@ -37422,7 +37439,11 @@ var render = function() {
   return _c("div", [
     _c(
       "button",
-      { staticClass: "ml-4 btn btn-primary", on: { click: _vm.followUser } },
+      {
+        staticClass: "ml-4 btn btn-primary",
+        domProps: { textContent: _vm._s(_vm.buttonText) },
+        on: { click: _vm.followUser }
+      },
       [_vm._v("Follow")]
     )
   ])
